@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 var api = {
   letConst: { passes: "'use strict'; let a; const b = 2;" },
   letLoop: { passes: "'use strict'; for(let i in {}){}; for(let i=0;;){break}" },
@@ -35,16 +35,16 @@ var api = {
   ObjectStatics: { is: "'use strict'; return ('getOwnPropertySymbols' in Object) && ('assign' in Object) && ('is' in Object);" },
   ArrayStatics: { is: "'use strict'; return ('from' in Array) && ('of' in Array);" },
   ArrayMethods: { is: "'use strict'; return ('fill' in Array.prototype) && ('find' in Array.prototype) && ('findIndex' in Array.prototype) && ('entries' in Array.prototype) && ('keys' in Array.prototype) && ('values' in Array.prototype);" },
-  TypedArrays: { is: "'use strict'; return ('ArrayBuffer' in global) && ('Int8Array' in global) && ('Uint8Array' in global) && ('Int32Array' in global) && ('Float64Array' in global);" },
+  TypedArrays: { is: "'use strict'; return ('ArrayBuffer' in window) && ('Int8Array' in window) && ('Uint8Array' in window) && ('Int32Array' in window) && ('Float64Array' in window);" },
   TypedArrayStatics: { dependencies: ["TypedArrays"], is: "'use strict'; return ('from' in Uint32Array) && ('of' in Uint32Array);" },
   TypedArrayMethods: { dependencies: ["TypedArrays"], is: "'use strict'; var x = new Int8Array(1); return ('slice' in x) && ('join' in x) && ('map' in x) && ('forEach' in x);" },
   StringMethods: { is: "'use strict'; return ('includes' in String.prototype) && ('repeat' in String.prototype);" },
   NumberStatics: { is: "'use strict'; return ('isNaN' in Number) && ('isInteger' in Number);" },
   MathStatics: { is: "'use strict'; return ('hypot' in Math) && ('acosh' in Math) && ('imul' in Math);" },
-  collections: { is: "'use strict'; return ('Map' in global) && ('Set' in global) && ('WeakMap' in global) && ('WeakSet' in global);" },
-  Proxy: { is: "'use strict'; return ('Proxy' in global);" },
-  Promise: { is: "'use strict'; return ('Promise' in global);"},
-  Reflect: { is: "'use strict'; return ('Reflect' in global);" },
+  collections: { is: "'use strict'; return ('Map' in window) && ('Set' in window) && ('WeakMap' in window) && ('WeakSet' in window);" },
+  Proxy: { is: "'use strict'; return ('Proxy' in window);" },
+  Promise: { is: "'use strict'; return ('Promise' in window);"},
+  Reflect: { is: "'use strict'; return ('Reflect' in window);" },
 };
 
 module.exports = api;
@@ -153,6 +153,8 @@ function tryPassFail(code) {
     return true;
   }
   catch (err) {
+      console.log(code);
+      console.error(err);
     return false;
   }
 }
@@ -162,6 +164,8 @@ function tryReturn(code) {
     return runIt(code);
   }
   catch (err) {
+      console.log(code);
+      console.error(err);
     return false;
   }
 }
@@ -173,6 +177,7 @@ function runIt(code) {
 module.exports =  runTest;
 
 },{"./api":1}],4:[function(require,module,exports){
+(function (global){
 var supports = require('../../lib/interface');
 var api = require('../../lib/api');
 var runTest = require('../../lib/runtest');
@@ -185,4 +190,5 @@ for (var key in supports){
 supports._api = api;
 window.Supports = supports;
 
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"../../lib/api":1,"../../lib/interface":2,"../../lib/runtest":3}]},{},[4]);

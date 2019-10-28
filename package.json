@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "build": "browserify public/assets/origin.js -o es-checker.js && cp -f es-checker.js public && browserify public/assets/mapper.origin.js -o public/assets/mapper.js && cp -rf public dist",
+    "build": "browserify public\\assets\\origin.js -o es-checker.js && copy es-checker.js public\\ && browserify public\\assets\\mapper.origin.js -o public\\assets\\mapper.js && copy public dist",
     "pages": "gh-pages -d dist",
     "prepublish": "npm run build && npm run pages && rm -rf dist"
   },
@@ -35,7 +35,7 @@
   },
   "language": "en",
   "devDependencies": {
-    "browserify": "^13.0.1",
+    "browserify": "^13.3.0",
     "gh-pages": "^0.11.0"
   }
 }
